@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Tweet to Webhook",
-    "version": "1.0",
+    "name": "Twitter Commentor",
+    "version": "2.0",
     "description": "Sends tweet content to a webhook when a button is pressed",
     "permissions": [
       "activeTab",
