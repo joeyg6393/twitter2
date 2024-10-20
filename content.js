@@ -10,20 +10,34 @@ function createChatBubbles(response) {
   const container = document.createElement('div');
   container.id = 'chat-bubbles-container';
   
+  const closeButton = document.createElement('button');
+  closeButton.textContent = 'X';
+  closeButton.className = 'close-button';
+  closeButton.addEventListener('click', () => container.remove());
+  container.appendChild(closeButton);
+  
   const responses = JSON.parse(response);
   
   Object.values(responses).forEach((text) => {
     const bubble = document.createElement('div');
     bubble.className = 'chat-bubble';
     bubble.textContent = text;
+    bubble.addEventListener('click', () => {
+      copyToReplyField(text);
+      container.remove();
+    });
     container.appendChild(bubble);
   });
   
   document.body.appendChild(container);
-  
-  setTimeout(() => {
-    container.remove();
-  }, 10000); // Remove bubbles after 10 seconds
+}
+
+function copyToReplyField(text) {
+  const replyField = document.querySelector('[data-testid="tweetTextarea_0"]');
+  if (replyField) {
+    replyField.focus();
+    document.execCommand('insertText', false, text);
+  }
 }
 
 function sendTweetToWebhook() {
