@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "Tweet to Webhook",
+    "version": "1.0",
+    "description": "Sends tweet content to a webhook when a button is pressed",
+    "permissions": [
+      "activeTab",
+      "https://twitter.com/*",
+      "https://hook.us1.make.com/*"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://twitter.com/*"],
+        "js": ["content.js"],
+        "css": ["styles.css"]
+      }
+    ],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    }
+  }
