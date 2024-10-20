@@ -1,22 +1,24 @@
 {
-    "manifest_version": 2,
-    "name": "Twitter Commentor",
-    "version": "2.0",
-    "description": "Sends tweet content to a webhook when a button is pressed",
-    "permissions": [
-      "activeTab",
-      "https://twitter.com/*",
-      "https://hook.us1.make.com/*"
-    ],
-    "content_scripts": [
-      {
-        "matches": ["https://twitter.com/*"],
-        "js": ["content.js"],
-        "css": ["styles.css"]
-      }
-    ],
-    "background": {
-      "scripts": ["background.js"],
-      "persistent": false
+  "manifest_version": 3,
+  "name": "Twitter Commentor",
+  "version": "2.0",
+  "description": "Sends tweet content to a webhook when a button is pressed",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://twitter.com/*",
+    "https://hook.us1.make.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
     }
-  }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {}
+}
