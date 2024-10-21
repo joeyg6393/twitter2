@@ -44,8 +44,56 @@ function toggleDropdown(event) {
 
 function openSettings(event) {
   event.preventDefault();
-  const settingsUrl = chrome.runtime.getURL('settings.html');
-  window.open(settingsUrl, '_blank');
+  const settingsPopup = document.createElement('div');
+  settingsPopup.id = 'tweet-to-webhook-settings';
+  settingsPopup.innerHTML = `
+    <div class="settings-content">
+      <h2>Twitter Commentor Settings</h2>
+      <div class="setting">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+      <div class="setting">
+        <label for="license-key">License Key:</label>
+        <input type="text" id="license-key" placeholder="Enter your license key">
+      </div>
+      <div class="setting">
+        <label for="openai-api">OpenAI API Key (Optional):</label>
+        <input type="text" id="openai-api" placeholder="Enter your OpenAI API key (optional)">
+      </div>
+      <button id="save-settings">Save Settings</button>
+      <button id="close-settings">Close</button>
+    </div>
+  `;
+  document.body.appendChild(settingsPopup);
+
+  // Load saved settings
+  chrome.storage.sync.get(['email', 'licenseKey', 'openaiApiKey'], function(result) {
+    document.getElementById('email').value = result.email || '';
+    document.getElementById('license-key').value = result.licenseKey || '';
+    document.getElementById('openai-api').value = result.openaiApiKey || '';
+  });
+
+  // Save settings
+  document.getElementById('save-settings').addEventListener('click', function() {
+    const email = document.getElementById('email').value;
+    const licenseKey = document.getElementById('license-key').value;
+    const openaiApiKey = document.getElementById('openai-api').value;
+
+    chrome.storage.sync.set({
+      email: email,
+      licenseKey: licenseKey,
+      openaiApiKey: openaiApiKey
+    }, function() {
+      alert('Settings saved successfully!');
+      settingsPopup.remove();
+    });
+  });
+
+  // Close settings
+  document.getElementById('close-settings').addEventListener('click', function() {
+    settingsPopup.remove();
+  });
 }
 
 function createChatBubbles(response) {
