@@ -4,15 +4,16 @@
   "version": "2.0",
   "description": "Sends tweet content to a webhook when a button is pressed",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "host_permissions": [
-    "https://twitter.com/*",
+    "https://x.com/*",
     "https://hook.us1.make.com/*"
   ],
   "content_scripts": [
     {
-      "matches": ["https://twitter.com/*"],
+      "matches": ["https://x.com/*"],
       "js": ["content.js"],
       "css": ["styles.css"]
     }
@@ -20,5 +21,13 @@
   "background": {
     "service_worker": "background.js"
   },
-  "action": {}
+  "action": {
+    "default_popup": "settings.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["settings.html"],
+      "matches": ["https://x.com/*"]
+    }
+  ]
 }
